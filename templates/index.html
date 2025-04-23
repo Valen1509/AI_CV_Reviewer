@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Revisión de Hojas de Vida con IA</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    form { margin-bottom: 30px; }
+    input[type="file"] { margin-bottom: 10px; }
+    .cv-result { border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h1>Sube múltiples hojas de vida (PDF)</h1>
+  <form action="/" method="POST" enctype="multipart/form-data">
+    <input type="file" name="files" multiple accept=".pdf" required><br>
+    <button type="submit">Analizar Hojas de Vida</button>
+  </form>
+
+  {% if resumes %}
+    <h2>Resultados del Análisis</h2>
+    {% for cv in resumes %}
+      <div class="cv-result">
+        <h3>{{ cv.filename }}</h3>
+        <p><strong>Nombre:</strong> {{ cv.name }}</p>
+        <p><strong>Email:</strong> {{ cv.email }}</p>
+        <p><strong>Teléfono:</strong> {{ cv.phone }}</p>
+        <p><strong>Habilidades detectadas:</strong> {{ cv.skills | join(', ') }}</p>
+        <p><strong>Educación:</strong><br>
+          {% for edu in cv.education %}
+            • {{ edu }}<br>
+          {% endfor %}
+        </p>
+        <p><strong>Puntaje:</strong> {{ cv.score }}</p>
+      </div>
+    {% endfor %}
+  {% endif %}
+</body>
+</html>
