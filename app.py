@@ -36,7 +36,7 @@ def extract_info(text):
     found_skills = [kw for kw in skills_keywords if kw.lower() in text.lower()]
 
     # Educación
-    education_keywords = ['educacion', 'master', 'phd', 'ingenieria', 'degree', 'universidad', 'colegio']
+    education_keywords = ['Licenciatura', 'master', 'phd', 'engineering', 'degree', 'university', 'college']
     education = [line for line in text.split('\n') if any(keyword in line.lower() for keyword in education_keywords)]
 
     return {
@@ -44,7 +44,7 @@ def extract_info(text):
         'email': email,
         'phone': phone,
         'skills': list(set(found_skills)),
-        'education': education[:2] 
+        'education': education[:2]  # máximo 2 líneas
     }
 
 @app.route("/", methods=["GET", "POST"])
